@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 
-class NoteAdapter(context: Context): BaseAdapter() {
+class NoteAdapter(context: Context, var notes: List<Note>): BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -50,16 +50,16 @@ class NoteAdapter(context: Context): BaseAdapter() {
         return view
     }
 
-    override fun getItem(p0: Int): Any {
-        return Note(0, 0, "Test", "Pizza")
+    override fun getItem(position: Int): Any {
+        return notes[position]
     }
 
-    override fun getItemId(p0: Int): Long {
-        return 0
+    override fun getItemId(position: Int): Long {
+        return notes[position].id
     }
 
     override fun getCount(): Int {
-        return 20
+        return notes.size
     }
 
     private class ViewHolder {

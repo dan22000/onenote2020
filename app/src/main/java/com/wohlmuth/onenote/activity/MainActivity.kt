@@ -1,4 +1,4 @@
-package com.wohlmuth.onenote
+package com.wohlmuth.onenote.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import com.wohlmuth.onenote.Preferences
+import com.wohlmuth.onenote.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -20,7 +22,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnLogin.setOnClickListener(this)
 
         // Animate Icon
-        val rotation = AnimationUtils.loadAnimation(this, R.anim.rotate)
+        val rotation = AnimationUtils.loadAnimation(this,
+            R.anim.rotate
+        )
         ivIcon.startAnimation(rotation)
 
         // Don't show MainActivity when user is already logged in

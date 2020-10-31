@@ -1,4 +1,4 @@
-package com.wohlmuth.onenote
+package com.wohlmuth.onenote.activity
 
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.wohlmuth.onenote.Preferences
+import com.wohlmuth.onenote.R
 import kotlinx.android.synthetic.main.activity_note_edit.*
 
 class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterface.OnClickListener {

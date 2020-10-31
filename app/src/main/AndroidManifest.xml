@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OneNote">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,10 +18,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ListActivity">
+        <activity android:name=".activity.ListActivity">
         </activity>
 
-        <activity android:name=".NoteEditActivity">
+        <activity android:name=".activity.NoteEditActivity">
         </activity>
 
     </application>
