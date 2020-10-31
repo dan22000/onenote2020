@@ -6,4 +6,5 @@
     <string name="message">Notiz</string>
     <string name="save">Speichern</string>
     <string name="note_saved">Notiz gespeichert</string>
+    <string name="delete">Löschen</string>
 </resources>
