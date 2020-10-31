@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">OneNote</string>
+    <string name="logged_in">Angemeldet</string>
+    <string name="login">Anmelden</string>
+    <string name="title">Titel</string>
+    <string name="message">Notiz</string>
+    <string name="save">Speichern</string>
+</resources>
