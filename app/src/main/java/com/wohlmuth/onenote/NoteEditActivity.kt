@@ -1,16 +1,16 @@
 package com.wohlmuth.onenote
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_note_edit.*
 
-class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
+class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterface.OnClickListener {
 
     private val preferences = Preferences()
 
@@ -31,9 +31,11 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.delete) {
-            preferences.setNoteTitle(this, null)
-            preferences.setNoteMessage(this, null)
-            finish()
+            AlertDialog.Builder(this)
+                .setMessage(R.string.delete_message)
+                .setPositiveButton(R.string.yes, this)
+                .setNegativeButton(R.string.no, null)
+                .show()
         }
 
         return true
@@ -48,5 +50,11 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         saveNote()
+    }
+
+    override fun onClick(p0: DialogInterface?, p1: Int) {
+        preferences.setNoteTitle(this, null)
+        preferences.setNoteMessage(this, null)
+        finish()
     }
 }
