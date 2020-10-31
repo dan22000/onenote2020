@@ -1,14 +1,13 @@
 package com.wohlmuth.onenote
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AlertDialog
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_list.*
-import kotlinx.android.synthetic.main.activity_note_edit.*
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -17,6 +16,33 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+
+        val values = arrayOf(
+            "Pizza",
+            "Ice Cream",
+            "Cola",
+            "Pizza",
+            "Ice Cream",
+            "Cola",
+            "Pizza",
+            "Ice Cream",
+            "Cola",
+            "Pizza",
+            "Ice Cream",
+            "Cola",
+            "Pizza",
+            "Ice Cream",
+            "Cola",
+            "Pizza",
+            "Ice Cream",
+            "Cola",
+            "Pizza",
+            "Ice Cream",
+            "Cola"
+        )
+
+        val myAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, values)
+        lvNotes.adapter = myAdapter
     }
 
     override fun onResume() {
@@ -26,8 +52,6 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateView() {
-        tvTitle.text = preferences.getNoteTitle(this)
-        tvMessage.text = preferences.getNoteMessage(this)
     }
 
     override fun onClick(v: View?) {
