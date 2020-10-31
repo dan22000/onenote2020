@@ -8,21 +8,17 @@
     tools:context=".ListActivity">
 
     <TextView
-        android:id="@+id/tvNote"
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Note 1"
-        android:textSize="18sp"/>
+        android:layout_margin="@dimen/padding"
+        android:textSize="24sp"/>
 
     <TextView
+        android:id="@+id/tvMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Note 2"
-        android:textSize="18sp"/>
+        android:layout_margin="@dimen/padding"
+        android:textSize="20sp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Note 3"
-        android:textSize="18sp"/>
 </LinearLayout>

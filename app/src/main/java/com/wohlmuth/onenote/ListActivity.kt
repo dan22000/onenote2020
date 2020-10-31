@@ -8,11 +8,26 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.activity_note_edit.*
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
+
+    private val preferences = Preferences()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        updateView()
+    }
+
+    private fun updateView() {
+        tvTitle.text = preferences.getNoteTitle(this)
+        tvMessage.text = preferences.getNoteMessage(this)
     }
 
     override fun onClick(v: View?) {
