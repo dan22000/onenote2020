@@ -11,6 +11,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
+        // Added Click Listener
         tvNote.setOnClickListener(this)
     }
 
