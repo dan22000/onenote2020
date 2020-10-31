@@ -5,4 +5,5 @@
     <string name="title">Titel</string>
     <string name="message">Notiz</string>
     <string name="save">Speichern</string>
+    <string name="note_saved">Notiz gespeichert</string>
 </resources>
