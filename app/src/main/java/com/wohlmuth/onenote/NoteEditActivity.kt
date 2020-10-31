@@ -21,6 +21,8 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
 
         etTitle.setText(preferences.getNoteTitle(this))
         etMessage.setText(preferences.getNoteMessage(this))
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -36,6 +38,8 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
                 .setPositiveButton(R.string.yes, this)
                 .setNegativeButton(R.string.no, null)
                 .show()
+        } else if (item.itemId == android.R.id.home) {
+            finish()
         }
 
         return true
