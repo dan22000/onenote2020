@@ -21,7 +21,7 @@ class Preferences {
         preferences.edit().putBoolean(PREFERENCES_USER_LOGGED_IN, loggedIn).apply()
     }
 
-    fun setNoteTitle(context: Context, title: String) {
+    fun setNoteTitle(context: Context, title: String?) {
         val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
         preferences.edit().putString(PREFERENCES_NOTE_TITLE, title).apply()
@@ -33,7 +33,7 @@ class Preferences {
         return preferences.getString(PREFERENCES_NOTE_TITLE, null)
     }
 
-    fun setNoteMessage(context: Context, message: String) {
+    fun setNoteMessage(context: Context, message: String?) {
         val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
         preferences.edit().putString(PREFERENCES_NOTE_MESSAGE, message).apply()

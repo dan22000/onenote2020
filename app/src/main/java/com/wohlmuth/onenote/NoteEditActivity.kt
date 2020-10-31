@@ -2,6 +2,8 @@ package com.wohlmuth.onenote
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -19,6 +21,22 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
 
         etTitle.setText(preferences.getNoteTitle(this))
         etMessage.setText(preferences.getNoteMessage(this))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_note_edit, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.delete) {
+            preferences.setNoteTitle(this, null)
+            preferences.setNoteMessage(this, null)
+            finish()
+        }
+
+        return true
     }
 
     private fun saveNote() {
