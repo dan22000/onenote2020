@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_list.*
 
@@ -17,32 +16,8 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        val values = arrayOf(
-            "Pizza",
-            "Ice Cream",
-            "Cola",
-            "Pizza",
-            "Ice Cream",
-            "Cola",
-            "Pizza",
-            "Ice Cream",
-            "Cola",
-            "Pizza",
-            "Ice Cream",
-            "Cola",
-            "Pizza",
-            "Ice Cream",
-            "Cola",
-            "Pizza",
-            "Ice Cream",
-            "Cola",
-            "Pizza",
-            "Ice Cream",
-            "Cola"
-        )
-
-        val myAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, values)
-        lvNotes.adapter = myAdapter
+        val noteAdapter = NoteAdapter(this)
+        lvNotes.adapter = noteAdapter
     }
 
     override fun onResume() {
