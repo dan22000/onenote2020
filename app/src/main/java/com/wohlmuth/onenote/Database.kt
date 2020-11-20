@@ -72,10 +72,7 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
 
     // Insert note into database
     fun insertNote(note: Note): Long {
-        val values = ContentValues()
-        values.put(KEY_TIMESTAMP, note.timestamp)
-        values.put(KEY_TITLE, note.title)
-        values.put(KEY_MESSAGE, note.message)
+        val values = noteToContentValues(note)
 
         return writableDatabase.insert(DATABASE_TABLE_NAME, null, values)
     }
@@ -108,5 +105,24 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         }
 
         return note
+    }
+
+    // Update single note
+    fun updateNote(note: Note): Int {
+        return writableDatabase.update(DATABASE_TABLE_NAME,
+            noteToContentValues(note),
+            "$KEY_ID=?",
+            arrayOf(note.id.toString()))
+    }
+
+    // Create new ContentValues object from Note
+    private fun noteToContentValues(note: Note): ContentValues {
+        val values = ContentValues()
+
+        values.put(KEY_TIMESTAMP, note.timestamp)
+        values.put(KEY_TITLE, note.title)
+        values.put(KEY_MESSAGE, note.message)
+
+        return values
     }
 }

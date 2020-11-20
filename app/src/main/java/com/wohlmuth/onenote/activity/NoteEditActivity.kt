@@ -10,13 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.wohlmuth.onenote.Database
 import com.wohlmuth.onenote.Note
-import com.wohlmuth.onenote.Preferences
 import com.wohlmuth.onenote.R
 import kotlinx.android.synthetic.main.activity_note_edit.*
 
 class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterface.OnClickListener {
 
-    private val preferences = Preferences()
+    private val db = Database(this)
+    private var note: Note? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +24,9 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         btnSave.setOnClickListener(this)
 
         val id = intent.getLongExtra("id", 0)
-
-
-        etTitle.setText("")
-        etMessage.setText("")
+        note = db.getNote(id)
+        etTitle.setText(note?.title)
+        etMessage.setText(note?.message)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
