@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import com.wohlmuth.onenote.Note
 import com.wohlmuth.onenote.NoteAdapter
@@ -12,7 +13,7 @@ import com.wohlmuth.onenote.Preferences
 import com.wohlmuth.onenote.R
 import kotlinx.android.synthetic.main.activity_list.*
 
-class ListActivity : AppCompatActivity(), View.OnClickListener {
+class ListActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemClickListener {
 
     private val preferences = Preferences()
 
@@ -20,7 +21,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        var notes: List<Note> = listOf(
+        val notes: List<Note> = listOf(
             Note(0,0, "Note 1", "Pizza"),
             Note(0,0, "Note 2", "Pizza"),
             Note(0,0, "Note 3", "Pizza"),
@@ -30,6 +31,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         )
         val noteAdapter = NoteAdapter(this, notes)
         lvNotes.adapter = noteAdapter
+        lvNotes.onItemClickListener = this
     }
 
     override fun onResume() {
@@ -59,5 +61,10 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         return true
+    }
+
+    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        val intent = Intent(this, NoteEditActivity::class.java)
+        startActivity(intent)
     }
 }

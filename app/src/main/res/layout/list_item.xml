@@ -9,14 +9,12 @@
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
-        android:textSize="24sp"/>
+        style="@style/NoteTitle"/>
 
     <TextView
         android:id="@+id/tvMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
-        android:textSize="20sp"/>
+        style="@style/NoteMessage"/>
 
 </LinearLayout>
