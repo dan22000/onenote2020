@@ -7,29 +7,20 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
-import com.wohlmuth.onenote.Note
-import com.wohlmuth.onenote.NoteAdapter
-import com.wohlmuth.onenote.Preferences
-import com.wohlmuth.onenote.R
+import com.wohlmuth.onenote.*
 import kotlinx.android.synthetic.main.activity_list.*
 
 class ListActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemClickListener {
 
-    private val preferences = Preferences()
+    private var db = Database(this)
+    private var noteAdapter: NoteAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        val notes: List<Note> = listOf(
-            Note(0,0, "Note 1", "Pizza"),
-            Note(0,0, "Note 2", "Pizza"),
-            Note(0,0, "Note 3", "Pizza"),
-            Note(0,0, "Note 4", "Pizza"),
-            Note(0,0, "Note 5", "Pizza"),
-            Note(0,0, "Note 6", "Pizza")
-        )
-        val noteAdapter = NoteAdapter(this, notes)
+        val notes: List<Note> = db.getAllNotes()
+        noteAdapter = NoteAdapter(this, notes)
         lvNotes.adapter = noteAdapter
         lvNotes.onItemClickListener = this
     }
@@ -41,6 +32,8 @@ class ListActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     }
 
     private fun updateView() {
+        noteAdapter!!.notes = db.getAllNotes()
+        noteAdapter!!.notifyDataSetChanged()
     }
 
     override fun onClick(v: View?) {

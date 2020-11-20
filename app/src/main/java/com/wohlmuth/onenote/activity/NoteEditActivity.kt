@@ -23,8 +23,8 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         setContentView(R.layout.activity_note_edit)
         btnSave.setOnClickListener(this)
 
-        etTitle.setText(preferences.getNoteTitle(this))
-        etMessage.setText(preferences.getNoteMessage(this))
+        etTitle.setText("")
+        etMessage.setText("")
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -64,8 +64,7 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     }
 
     override fun onClick(p0: DialogInterface?, p1: Int) {
-        preferences.setNoteTitle(this, null)
-        preferences.setNoteMessage(this, null)
+        saveNote()
         finish()
     }
 }

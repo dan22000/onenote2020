@@ -77,4 +77,11 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
 
         return writableDatabase.insert(DATABASE_TABLE_NAME, null, values)
     }
+
+    // Get single note from database
+    fun getNote(id: Long): Note? {
+        val note: Note?
+
+        return note
+    }
 }
