@@ -23,6 +23,9 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         setContentView(R.layout.activity_note_edit)
         btnSave.setOnClickListener(this)
 
+        val id = intent.getLongExtra("id", 0)
+
+
         etTitle.setText("")
         etMessage.setText("")
 

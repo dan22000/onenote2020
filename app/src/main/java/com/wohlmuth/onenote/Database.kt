@@ -2,6 +2,7 @@ package com.wohlmuth.onenote
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -28,6 +29,14 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
                 $KEY_MESSAGE TEXT
             )""")
 
+        // Database cursor array
+        private val CURSOR_ARRAY = arrayOf(
+            KEY_ID,
+            KEY_TIMESTAMP,
+            KEY_TITLE,
+            KEY_MESSAGE
+        )
+
         // Drop table statement
         private const val DROP_TABLE = "DROP TABLE IF EXISTS $DATABASE_TABLE_NAME"
 
@@ -50,15 +59,8 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         val cursor = readableDatabase.rawQuery(SELECT_ALL, null)
         cursor.moveToFirst().run {
             do {
-                cursor.run {
-                    val note = Note(
-                        getLong(getColumnIndex(KEY_ID)),
-                        getLong(getColumnIndex(KEY_TIMESTAMP)),
-                        getString(getColumnIndex(KEY_TITLE)),
-                        getString(getColumnIndex(KEY_MESSAGE))
-                    )
-
-                    notes.add(note)
+                cursorToNote(cursor)?.let {
+                    notes.add(it)
                 }
             } while (cursor.moveToNext())
         }
@@ -81,6 +83,29 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
     // Get single note from database
     fun getNote(id: Long): Note? {
         val note: Note?
+        val cursor = readableDatabase.query(
+            DATABASE_TABLE_NAME, CURSOR_ARRAY, "$KEY_ID=?",
+            arrayOf(id.toString()), null, null, null, null
+        )
+
+        cursor.moveToFirst()
+        note = cursorToNote(cursor)
+        cursor.close()
+
+        return note
+    }
+
+    private fun cursorToNote(cursor: Cursor):Note? {
+        var note: Note? = null
+        if (cursor?.count == 0) return null
+        cursor.run {
+            note = Note(
+                getLong(getColumnIndex(KEY_ID)),
+                getLong(getColumnIndex(KEY_TIMESTAMP)),
+                getString(getColumnIndex(KEY_TITLE)),
+                getString(getColumnIndex(KEY_MESSAGE))
+            )
+        }
 
         return note
     }
