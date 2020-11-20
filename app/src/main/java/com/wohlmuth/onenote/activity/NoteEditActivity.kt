@@ -48,8 +48,8 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     }
 
     private fun saveNote() {
-        preferences.setNoteTitle(this, etTitle.text.toString())
-        preferences.setNoteMessage(this, etMessage.text.toString())
+
+
         Toast.makeText(this, R.string.note_saved, Toast.LENGTH_LONG).show()
         finish()
     }

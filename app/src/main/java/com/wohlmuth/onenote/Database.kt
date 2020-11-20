@@ -1,5 +1,6 @@
 package com.wohlmuth.onenote
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -44,7 +45,36 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
     }
 
     // Get all notes from database
-    fun getAllNotes(): List<Note> {
+    private fun getAllNotes(): List<Note> {
+        val notes = ArrayList<Note>()
+        val cursor = readableDatabase.rawQuery(SELECT_ALL, null)
+        cursor.moveToFirst().run {
+            do {
+                cursor.run {
+                    val note = Note(
+                        getLong(getColumnIndex(KEY_ID)),
+                        getLong(getColumnIndex(KEY_TIMESTAMP)),
+                        getString(getColumnIndex(KEY_TITLE)),
+                        getString(getColumnIndex(KEY_MESSAGE))
+                    )
 
+                    notes.add(note)
+                }
+            } while (cursor.moveToNext())
+        }
+
+        readableDatabase.close()
+
+        return notes
+    }
+
+    // Insert note into database
+    private fun insertNote(note: Note): Long {
+        val values = ContentValues()
+        values.put(KEY_TIMESTAMP, note.timestamp)
+        values.put(KEY_TITLE, note.title)
+        values.put(KEY_MESSAGE, note.message)
+
+        return writableDatabase.insert(DATABASE_TABLE_NAME, null, values)
     }
 }
