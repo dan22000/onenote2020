@@ -23,10 +23,12 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         setContentView(R.layout.activity_note_edit)
         btnSave.setOnClickListener(this)
 
-        val id = intent.getLongExtra("id", 0)
-        note = db.getNote(id)
-        etTitle.setText(note?.title)
-        etMessage.setText(note?.message)
+        val id = intent.getLongExtra("id", -1)
+        if (id >= 0) {
+            note = db.getNote(id)
+            etTitle.setText(note?.title)
+            etMessage.setText(note?.message)
+        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -55,7 +57,14 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         val title = etTitle.text.toString()
         val message = etMessage.text.toString()
         val db = Database(this)
-        db.insertNote(Note(0, System.currentTimeMillis(), title, message))
+
+        if (note == null) {
+            db.insertNote(Note(0, System.currentTimeMillis(), title, message))
+        } else {
+            note!!.message = message
+            note!!.title = title
+            db.updateNote(note!!)
+        }
 
         Toast.makeText(this, R.string.note_saved, Toast.LENGTH_LONG).show()
         finish()
@@ -66,7 +75,6 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     }
 
     override fun onClick(p0: DialogInterface?, p1: Int) {
-        saveNote()
         finish()
     }
 }
