@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.wohlmuth.onenote.Database
+import com.wohlmuth.onenote.Note
 import com.wohlmuth.onenote.Preferences
 import com.wohlmuth.onenote.R
 import kotlinx.android.synthetic.main.activity_note_edit.*
@@ -48,7 +50,10 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     }
 
     private fun saveNote() {
-
+        val title = etTitle.text.toString()
+        val message = etMessage.text.toString()
+        val db = Database(this)
+        db.insertNote(Note(0, System.currentTimeMillis(), title, message))
 
         Toast.makeText(this, R.string.note_saved, Toast.LENGTH_LONG).show()
         finish()

@@ -45,7 +45,7 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
     }
 
     // Get all notes from database
-    private fun getAllNotes(): List<Note> {
+    fun getAllNotes(): List<Note> {
         val notes = ArrayList<Note>()
         val cursor = readableDatabase.rawQuery(SELECT_ALL, null)
         cursor.moveToFirst().run {
@@ -69,7 +69,7 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
     }
 
     // Insert note into database
-    private fun insertNote(note: Note): Long {
+    fun insertNote(note: Note): Long {
         val values = ContentValues()
         values.put(KEY_TIMESTAMP, note.timestamp)
         values.put(KEY_TITLE, note.title)
