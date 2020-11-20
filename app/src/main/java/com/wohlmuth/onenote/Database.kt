@@ -19,12 +19,32 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         private const val KEY_MESSAGE = "message"
         private const val KEY_TIMESTAMP = "timestamp"
 
+        // Database create table statement
+        private const val CREATE_TABLE = ("""CREATE TABLE $DATABASE_TABLE_NAME(
+                $KEY_ID INTEGER PRIMARY KEY,
+                $KEY_TIMESTAMP INT,
+                $KEY_TITLE TEXT,
+                $KEY_MESSAGE TEXT
+            )""")
 
+        // Drop table statement
+        private const val DROP_TABLE = "DROP TABLE IF EXISTS $DATABASE_TABLE_NAME"
+
+        // Database select all statement
+        private const val SELECT_ALL = "SELECT * FROM $DATABASE_TABLE_NAME"
     }
 
-    override fun onCreate(p0: SQLiteDatabase?) {
+    override fun onCreate(db: SQLiteDatabase) {
+        db.execSQL(CREATE_TABLE)
     }
 
-    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
+    override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
+        db.execSQL(DROP_TABLE)
+        db.execSQL(CREATE_TABLE)
+    }
+
+    // Get all notes from database
+    fun getAllNotes(): List<Note> {
+
     }
 }
