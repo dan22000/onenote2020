@@ -75,6 +75,9 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     }
 
     override fun onClick(p0: DialogInterface?, p1: Int) {
+        note.run {
+            db.deleteNote(note!!)
+        }
         finish()
     }
 }

@@ -125,4 +125,13 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
 
         return values
     }
+
+    // Delete single note
+    fun deleteNote(note: Note) {
+        writableDatabase.delete(
+            DATABASE_TABLE_NAME,
+            "$KEY_ID=?",
+            arrayOf(note.id.toString())
+        )
+    }
 }
