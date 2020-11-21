@@ -1,6 +1,9 @@
 package com.wohlmuth.onenote.activity
 
+import android.Manifest
 import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -8,15 +11,20 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.wohlmuth.onenote.Database
 import com.wohlmuth.onenote.Note
 import com.wohlmuth.onenote.R
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_note_edit.*
 
 class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterface.OnClickListener {
 
     private val db = Database(this)
     private var note: Note? = null
+    private var lastLocation: Location? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +39,40 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        // Init Fused Location Provider
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        updateLastLocation()
+    }
+
+    private fun updateLastLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions()
+            return
+        }
+
+        fusedLocationClient.lastLocation.addOnCompleteListener(this) {
+            task ->  lastLocation = task.result
+            Toast.makeText(this, "Lat: " + lastLocation!!.latitude + " Lon: " + lastLocation!!.longitude, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(this,
+        arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+        101)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -79,5 +121,13 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
             db.deleteNote(note!!)
         }
         finish()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == 101) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                updateLastLocation()
+            }
+        }
     }
 }
