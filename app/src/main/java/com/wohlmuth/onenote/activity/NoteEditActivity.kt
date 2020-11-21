@@ -1,11 +1,16 @@
 package com.wohlmuth.onenote.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
+import android.media.MediaPlayer
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -118,8 +123,21 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
             db.updateNote(note!!)
         }
 
+        vibrate()
+        MediaPlayer.create(this, R.raw.beep).start()
         Toast.makeText(this, R.string.note_saved, Toast.LENGTH_LONG).show()
         finish()
+    }
+
+    private fun vibrate() {
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            //deprecated in API 26
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(500)
+        }
     }
 
     override fun onClick(v: View?) {
