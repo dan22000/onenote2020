@@ -107,8 +107,8 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
                 getLong(getColumnIndex(KEY_TIMESTAMP)),
                 getString(getColumnIndex(KEY_TITLE)),
                 getString(getColumnIndex(KEY_MESSAGE)),
-                0.0,
-                0.0
+                getDouble(getColumnIndex(KEY_LATITUDE)),
+                getDouble(getColumnIndex(KEY_LONGITUDE))
             )
         }
 
@@ -130,6 +130,8 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         values.put(KEY_TIMESTAMP, note.timestamp)
         values.put(KEY_TITLE, note.title)
         values.put(KEY_MESSAGE, note.message)
+        values.put(KEY_LATITUDE, note.latitude)
+        values.put(KEY_LONGITUDE, note.longitude)
 
         return values
     }
