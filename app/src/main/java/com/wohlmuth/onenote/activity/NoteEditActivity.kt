@@ -65,7 +65,6 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
 
         fusedLocationClient.lastLocation.addOnCompleteListener(this) {
             task ->  lastLocation = task.result
-            Toast.makeText(this, "Lat: " + lastLocation!!.latitude + " Lon: " + lastLocation!!.longitude, Toast.LENGTH_LONG).show()
         }
     }
 
