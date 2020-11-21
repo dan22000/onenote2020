@@ -3,9 +3,12 @@ package com.wohlmuth.onenote.activity
 import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +18,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.wohlmuth.onenote.Database
@@ -23,6 +27,7 @@ import com.wohlmuth.onenote.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_note_edit.*
+import java.lang.Exception
 
 class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterface.OnClickListener {
 
@@ -46,10 +51,12 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
 
             if (note?.latitude != 0.0) {
                 tvLocation.visibility = View.VISIBLE
-                tvLocation.text = "Location: " + note!!.latitude + ", " + note!!.longitude
+                val addr = getAddress(note!!.latitude, note!!.longitude)
+                tvLocation.text = addr
             }
         }
 
+        tvLocation.setOnClickListener(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Init Fused Location Provider
@@ -129,6 +136,12 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         finish()
     }
 
+    private fun getAddress(lat: Double, lng: Double): String? {
+        val geocoder = Geocoder(this)
+        val list = geocoder.getFromLocation(lat,lng,1)
+        return list[0].getAddressLine(0)
+    }
+
     private fun vibrate() {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -140,8 +153,18 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onClick(v: View?) {
-        saveNote()
+        if (v == tvLocation) {
+            try {
+                val uri = String.format(resources.configuration.locales.get(0), "geo:%f,%f", latitude, longitude)
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                startActivity(intent)
+            } catch (e: Exception) {
+            }
+        } else {
+            saveNote()
+        }
     }
 
     override fun onClick(p0: DialogInterface?, p1: Int) {
