@@ -24,6 +24,8 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
     private val db = Database(this)
     private var note: Note? = null
     private var lastLocation: Location? = null
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +38,11 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
             note = db.getNote(id)
             etTitle.setText(note?.title)
             etMessage.setText(note?.message)
+
+            if (note?.latitude != 0.0) {
+                tvLocation.visibility = View.VISIBLE
+                tvLocation.text = "Location: " + note!!.latitude + ", " + note!!.longitude
+            }
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -100,7 +107,11 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         val db = Database(this)
 
         if (note == null) {
-            db.insertNote(Note(0, System.currentTimeMillis(), title, message, 0.0, 0.0))
+            lastLocation?.let {
+                latitude = it.latitude
+                longitude = it.longitude
+            }
+            db.insertNote(Note(0, System.currentTimeMillis(), title, message, latitude, longitude))
         } else {
             note!!.message = message
             note!!.title = title
