@@ -13,20 +13,24 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         // Database properties
         private const val DATABASE_NAME = "onenote"
         private const val DATABASE_TABLE_NAME = "notes"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
         // Database table column names
         private const val KEY_ID = "id"
         private const val KEY_TITLE = "title"
         private const val KEY_MESSAGE = "message"
         private const val KEY_TIMESTAMP = "timestamp"
+        private const val KEY_LATITUDE = "latitude"
+        private const val KEY_LONGITUDE = "longitude"
 
         // Database create table statement
         private const val CREATE_TABLE = ("""CREATE TABLE $DATABASE_TABLE_NAME(
                 $KEY_ID INTEGER PRIMARY KEY,
                 $KEY_TIMESTAMP INT,
                 $KEY_TITLE TEXT,
-                $KEY_MESSAGE TEXT
+                $KEY_MESSAGE TEXT,
+                $KEY_LATITUDE FLOAT,
+                $KEY_LONGITUDE FLOAT
             )""")
 
         // Database cursor array
@@ -34,7 +38,9 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
             KEY_ID,
             KEY_TIMESTAMP,
             KEY_TITLE,
-            KEY_MESSAGE
+            KEY_MESSAGE,
+            KEY_LATITUDE,
+            KEY_LONGITUDE
         )
 
         // Drop table statement
@@ -100,7 +106,9 @@ class Database(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
                 getLong(getColumnIndex(KEY_ID)),
                 getLong(getColumnIndex(KEY_TIMESTAMP)),
                 getString(getColumnIndex(KEY_TITLE)),
-                getString(getColumnIndex(KEY_MESSAGE))
+                getString(getColumnIndex(KEY_MESSAGE)),
+                0.0,
+                0.0
             )
         }
 

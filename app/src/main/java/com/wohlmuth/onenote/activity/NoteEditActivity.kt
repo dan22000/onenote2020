@@ -59,7 +59,7 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener, DialogInterf
         val db = Database(this)
 
         if (note == null) {
-            db.insertNote(Note(0, System.currentTimeMillis(), title, message))
+            db.insertNote(Note(0, System.currentTimeMillis(), title, message, 0.0, 0.0))
         } else {
             note!!.message = message
             note!!.title = title
